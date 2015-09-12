@@ -4,6 +4,7 @@ var del = require('del');
 var es = require('event-stream');
 var bowerFiles = require('main-bower-files');
 var print = require('gulp-print');
+var jasmine = require('gulp-jasmine');
 var Q = require('q');
 
 // == PATH STRINGS ========
@@ -17,7 +18,8 @@ var paths = {
     distDev: './dist.dev',
     distProd: './dist.prod',
     distScriptsProd: './dist.prod/scripts',
-    scriptsDevServer: 'devServer/**/*.js'
+    scriptsDevServer: 'devServer/**/*.js',
+    testFile: './spec/*.js'
 };
 
 // == PIPE SEGMENTS ========
@@ -192,6 +194,11 @@ gulp.task('clean-prod', function() {
         deferred.resolve();
     });
     return deferred.promise;
+});
+
+gulp.task('test', function () {
+    return gulp.src('./spec/*.js')
+        .pipe(jasmine());
 });
 
 // checks html source files for syntax errors
